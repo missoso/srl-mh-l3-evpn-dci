@@ -1,0 +1,145 @@
+# Copyright 2020 Nokia
+# Licensed under the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+
+name: mh-l3-evpn-dci
+prefix: ""
+
+mgmt:
+  network: mh-l3-evpn-dci
+  ipv4-subnet: 172.80.80.0/24
+
+topology:
+  defaults:
+    kind: nokia_srlinux
+
+  kinds:
+    nokia_srlinux:
+      image: ghcr.io/nokia/srlinux:24.10.1
+      type: ixr-d2l
+    linux:
+      image: ghcr.io/srl-labs/network-multitool
+
+#### DC1
+
+  nodes:
+    ### SPINES ###
+    spine1:
+      type: ixr-d3l
+      group: spine
+      startup-config: configs/fabric/dc1-spine1.cfg
+      mgmt-ipv4: 172.80.80.21
+    spine2:
+      type: ixr-d3l
+      group: spine
+      startup-config: configs/fabric/dc1-spine2.cfg
+      mgmt-ipv4: 172.80.80.22
+    spine3:
+      type: ixr-d3l
+      group: spine
+      startup-config: configs/fabric/dc2-spine3.cfg
+      mgmt-ipv4: 172.80.80.23
+    spine4:
+      type: ixr-d3l
+      group: spine
+      startup-config: configs/fabric/dc2-spine4.cfg
+      mgmt-ipv4: 172.80.80.24
+    ### LEAFS ###
+    leaf1:
+      startup-config: configs/fabric/dc1-leaf1.cfg
+      mgmt-ipv4: 172.80.80.11
+      group: leaf
+    leaf2:
+      startup-config: configs/fabric/dc1-leaf2.cfg
+      mgmt-ipv4: 172.80.80.12
+      group: leaf
+    leaf3:
+      startup-config: configs/fabric/dc1-leaf3.cfg
+      mgmt-ipv4: 172.80.80.13
+      group: leaf
+    leaf4:
+      startup-config: configs/fabric/dc1-leaf4.cfg
+      mgmt-ipv4: 172.80.80.14
+      group: leaf
+    leaf5:
+      startup-config: configs/fabric/dc1-leaf5.cfg
+      mgmt-ipv4: 172.80.80.15
+      group: leaf
+    leaf6:
+      startup-config: configs/fabric/dc2-leaf6.cfg
+      mgmt-ipv4: 172.80.80.16
+      group: leaf
+    leaf7:
+      startup-config: configs/fabric/dc2-leaf7.cfg
+      mgmt-ipv4: 172.80.80.17
+      group: leaf
+    leaf8:
+      startup-config: configs/fabric/dc2-leaf8.cfg
+      mgmt-ipv4: 172.80.80.18
+      group: leaf
+
+    ### CLIENTS ###
+      ### Client 2 is special, FRR image
+    client2:
+      kind: linux
+      image: quay.io/frrouting/frr:9.0.2
+      binds:
+        - configs/ce/ce2.cfg:/etc/frr/frr.conf
+        - configs/ce/frr-daemons.conf:/etc/frr/daemons
+      mgmt-ipv4: 172.80.80.32
+      exec:
+        - ip link set eth0 down
+      group: server
+    client3:
+      kind: linux
+      mgmt-ipv4: 172.80.80.33
+      exec:
+        - ip link set eth0 down
+        - ip address add 192.168.13.1/31 dev eth1
+        - ip -6 address add 2002::192:168:13:1/96 dev eth1
+        - ip route add 0.0.0.0/0 via 192.168.13.0
+      group: server
+    client4:
+      kind: linux
+      mgmt-ipv4: 172.80.80.34
+      exec:
+        - ip link set eth0 down
+        - ip address add 192.168.16.1/31 dev eth1
+        - ip -6 address add 2002::192:168:16:1/96 dev eth1
+        - ip route add 0.0.0.0/0 via 192.168.16.0
+      group: server
+
+  links:
+    # DC1
+    # Spines to leafs
+    - endpoints: ["spine1:e1-1", "leaf1:e1-49"]
+    - endpoints: ["spine1:e1-2", "leaf2:e1-49"]
+    - endpoints: ["spine1:e1-3", "leaf3:e1-49"]
+    - endpoints: ["spine1:e1-4", "leaf4:e1-49"]
+    - endpoints: ["spine1:e1-5", "leaf5:e1-49"]
+    - endpoints: ["spine2:e1-1", "leaf1:e1-50"]
+    - endpoints: ["spine2:e1-2", "leaf2:e1-50"]
+    - endpoints: ["spine2:e1-3", "leaf3:e1-50"]
+    - endpoints: ["spine2:e1-4", "leaf4:e1-50"]
+    - endpoints: ["spine2:e1-5", "leaf5:e1-50"]
+    # Leaf 1 to client 2
+    - endpoints: ["leaf1:e1-2", "client2:eth1"]
+    # Leaf 2 to client 2
+    - endpoints: ["leaf2:e1-1", "client2:eth2"]
+    # Leaf 3 to client 3
+    - endpoints: ["leaf3:e1-1", "client3:eth1"]
+  ##
+  # DC1 to DC2
+    - endpoints: ["leaf4:e1-1", "leaf6:e1-1"]
+    - endpoints: ["leaf5:e1-1", "leaf7:e1-1"]
+  ##
+  # DC2
+  # Spines to leafs
+    - endpoints: ["spine3:e1-6", "leaf6:e1-49"]
+    - endpoints: ["spine3:e1-7", "leaf7:e1-49"]
+    - endpoints: ["spine3:e1-8", "leaf8:e1-49"]
+    - endpoints: ["spine4:e1-6", "leaf6:e1-50"]
+    - endpoints: ["spine4:e1-7", "leaf7:e1-50"]
+    - endpoints: ["spine4:e1-8", "leaf8:e1-50"]
+    # Leaf 8 to client 4
+    - endpoints: ["leaf8:e1-1", "client4:eth1"]
