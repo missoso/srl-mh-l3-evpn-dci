@@ -8,15 +8,15 @@ Client 2 CE device (linux with FRR) will establish an BGP peering with leaf1 onl
 
 # Overlay, underlay and mgmt - DC 1
 
-![pic1](https://github.com/missoso/srl-mh-evpn/blob/main/img_and_drawio/underlay_overlay_mgmt-DC1.png)
+![pic1](https://github.com/missoso/srl-mh-l3-evpn-dci/blob/main/img_and_drawio/underlay_overlay_mgmt-DC1.png)
 
 # Overlay, underlay and mgmt - DC 2
 
-![pic2](https://github.com/missoso/srl-mh-evpn/blob/main/img_and_drawio/underlay_overlay_mgmt-DC2.png)
+![pic2](https://github.com/missoso/srl-mh-l3-evpn-dci/blob/main/img_and_drawio/underlay_overlay_mgmt-DC2.png)
 
 # Client baseline setup
 
-![pic3](https://github.com/missoso/srl-mh-l3-evpn/blob/main/img_and_drawio/srl-mh-l3-evpn-dci-detail.png)
+![pic3](https://github.com/missoso/srl-mh-l3-evpn-dci/blob/main/img_and_drawio/srl-mh-l3-evpn-dci-detail.png)
 
 Symmetric routing on the ip-vrf-12
 
