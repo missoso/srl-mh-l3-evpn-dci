@@ -1,26 +1,28 @@
 # SR Linux EVPN Multi Homing - Layer 3 + DCI
 
-Baseline setup to play with EVPN multi homing (client 2) plus the DCI component (client4 sits in DC2)
+Baseline setup to play with EVPN multi homing (client 2) plus the DCI component (client4 in DC2)
 
 Layer 3 multi homing where one ESI is associated with a IP-VRF
 
 Client 2 CE device (linux with FRR) will establish an BGP peering with leaf1 only and share the route 40.40.40.0/24, the ratioanle is that by default leaf3 will only have one path to 40.40.40.0/24 (via leaf1), but an Ethernet segment created at leaf1 and leaf2 (to which CE2 is multi homed) makes it possible to have aliasing to that IP thus allowing for load balancing form leaf3 towards both leaf1 and leaf2 to reach that 40.40.40.0/24 subnet
 
-# Overlay, underlay and mgmt - DC 1
+# Client setup
 
-![pic1](https://github.com/missoso/srl-mh-l3-evpn-dci/blob/main/img_and_drawio/underlay_overlay_mgmt-DC1.png)
-
-# Overlay, underlay and mgmt - DC 2
-
-![pic2](https://github.com/missoso/srl-mh-l3-evpn-dci/blob/main/img_and_drawio/underlay_overlay_mgmt-DC2.png)
-
-# Client baseline setup
-
-![pic3](https://github.com/missoso/srl-mh-l3-evpn-dci/blob/main/img_and_drawio/srl-mh-l3-evpn-dci-detail.png)
+![pic1](https://github.com/missoso/srl-mh-l3-evpn-dci/blob/main/img_and_drawio/srl-mh-l3-evpn-dci-detail.png)
 
 Symmetric routing on the ip-vrf-12
 
 CE-PE eBGP between client2 and leaf1 only
+
+Client 4 in is another DC
+
+# Overlay, underlay and mgmt - DC 1
+
+![pic2](https://github.com/missoso/srl-mh-l3-evpn-dci/blob/main/img_and_drawio/underlay_overlay_mgmt-DC1.png)
+
+# Overlay, underlay and mgmt - DC 2
+
+![pic3](https://github.com/missoso/srl-mh-l3-evpn-dci/blob/main/img_and_drawio/underlay_overlay_mgmt-DC2.png)
 
 # Without Ethernet segments
 
