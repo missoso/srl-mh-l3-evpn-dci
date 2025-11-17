@@ -136,7 +136,7 @@ IPv4 prefixes with active ECMP routes: 2
 
 ## Deploying the lab
 
-The lab is deployed with the [containerlab](https://containerlab.dev) project, where [`mh-l3-evpn-dci.clab.yml`](https://github.com/missoso/srl-symmetric-routing-irb/blob/main/mh-l3-evpn-dci.clab.yml) file declaratively describes the lab topology.
+The lab is deployed with the [containerlab](https://containerlab.dev) project, where [`mh-l3-evpn-dci.clab.yml`](https://github.com/missoso/srl-mh-l3-evpn-dci/blob/main/mh-l3-evpn-dci.clab.yml) file declaratively describes the lab topology.
 
 ```bash
 # change into the cloned directory
@@ -170,11 +170,8 @@ docker exec -it client1 bash
 ╭─────────┬────────────────────────────────────┬─────────┬────────────────╮
 │   Name  │             Kind/Image             │  State  │ IPv4/6 Address │
 ├─────────┼────────────────────────────────────┼─────────┼────────────────┤
-│ client1 │ linux                              │ running │ 172.80.80.31   │
-│         │ ghcr.io/srl-labs/network-multitool │         │ N/A            │
-├─────────┼────────────────────────────────────┼─────────┼────────────────┤
 │ client2 │ linux                              │ running │ 172.80.80.32   │
-│         │ ghcr.io/srl-labs/network-multitool │         │ N/A            │
+│         │ quay.io/frrouting/frr:9.0.2        │         │ N/A            │
 ├─────────┼────────────────────────────────────┼─────────┼────────────────┤
 │ client3 │ linux                              │ running │ 172.80.80.33   │
 │         │ ghcr.io/srl-labs/network-multitool │         │ N/A            │
@@ -194,10 +191,28 @@ docker exec -it client1 bash
 │ leaf4   │ nokia_srlinux                      │ running │ 172.80.80.14   │
 │         │ ghcr.io/nokia/srlinux:24.10.1      │         │ N/A            │
 ├─────────┼────────────────────────────────────┼─────────┼────────────────┤
+│ leaf5   │ nokia_srlinux                      │ running │ 172.80.80.15   │
+│         │ ghcr.io/nokia/srlinux:24.10.1      │         │ N/A            │
+├─────────┼────────────────────────────────────┼─────────┼────────────────┤
+│ leaf6   │ nokia_srlinux                      │ running │ 172.80.80.16   │
+│         │ ghcr.io/nokia/srlinux:24.10.1      │         │ N/A            │
+├─────────┼────────────────────────────────────┼─────────┼────────────────┤
+│ leaf7   │ nokia_srlinux                      │ running │ 172.80.80.17   │
+│         │ ghcr.io/nokia/srlinux:24.10.1      │         │ N/A            │
+├─────────┼────────────────────────────────────┼─────────┼────────────────┤
+│ leaf8   │ nokia_srlinux                      │ running │ 172.80.80.18   │
+│         │ ghcr.io/nokia/srlinux:24.10.1      │         │ N/A            │
+├─────────┼────────────────────────────────────┼─────────┼────────────────┤
 │ spine1  │ nokia_srlinux                      │ running │ 172.80.80.21   │
 │         │ ghcr.io/nokia/srlinux:24.10.1      │         │ N/A            │
 ├─────────┼────────────────────────────────────┼─────────┼────────────────┤
 │ spine2  │ nokia_srlinux                      │ running │ 172.80.80.22   │
+│         │ ghcr.io/nokia/srlinux:24.10.1      │         │ N/A            │
+├─────────┼────────────────────────────────────┼─────────┼────────────────┤
+│ spine3  │ nokia_srlinux                      │ running │ 172.80.80.23   │
+│         │ ghcr.io/nokia/srlinux:24.10.1      │         │ N/A            │
+├─────────┼────────────────────────────────────┼─────────┼────────────────┤
+│ spine4  │ nokia_srlinux                      │ running │ 172.80.80.24   │
 │         │ ghcr.io/nokia/srlinux:24.10.1      │         │ N/A            │
 ╰─────────┴────────────────────────────────────┴─────────┴────────────────╯
 ```
